@@ -1,17 +1,18 @@
 {
   "env": {
     "browser": true,
-    "es2020": true,
-    "node": true,
-    "jest": true
+    "es2021": true,
+    "node": true
   },
   "extends": [
     "plugin:react/recommended",
-    "standard",
+    "airbnb",
     "plugin:@typescript-eslint/recommended",
     "prettier/@typescript-eslint",
-    "prettier/standard",
-    "prettier/react"
+    "prettier",
+    "prettier/react",
+    "plugin:@next/next/recommended",
+    "next"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -21,11 +22,37 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "plugins": ["react", "@typescript-eslint", "prettier", "react-hooks"],
   "rules": {
-    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "import/extensions": "off",
     "prettier/prettier": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "space-before-function-paren": "off",
-    "react/prop-types": "off"
+    "react/require-default-props": "off",
+    "import/no-extraneous-dependencies": "off",
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "next/link-passhref": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
+    "import/prefer-default-export": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/jsx-props-no-spreading": "off",
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link"],
+        "specialLink": ["hrefLeft", "hrefRight"],
+        "aspects": ["invalidHref", "preferButton"]
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["./src"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   }
 }
