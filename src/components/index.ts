@@ -1,2 +1,6 @@
 export { default as Input } from './Input/Input.component'
 export { default as Button } from './Button/Button.component'
+export { default as Link } from './Link/Link.component'
+export { default as Header } from './Header/Header.component'
+export { default as AuthProvider } from './AuthProvider/AuthProvider.component'
+export { default as Card } from './Card/Card.component'

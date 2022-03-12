@@ -5,9 +5,10 @@ export interface SignInDTO {
 
 export interface SignInResponse {
   token: string
-  userId: number
+  userId: number | string
   name: string
   phone: string
+  message?: string
 }
 
 export interface SignUpDTO {
@@ -17,4 +18,7 @@ export interface SignUpDTO {
   password: string
 }
 
-export interface SignUpResponse {}
+export interface SignUpResponse {
+  message: string
+  userId: number
+}

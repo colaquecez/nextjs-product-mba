@@ -1,54 +1,69 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Head from 'next/head'
-import { Container } from '../styles/pages/Home'
-import { Button, Input } from '../components'
-import * as yup from 'yup'
-import { useAuth } from '../context/auth/auth.contetxt'
-import api from '../service/api'
-import { useSignInMutation } from '../redux/Auth/Auth.api'
+import { Container, Navigation, LoadingText } from '@/styles/pages/Home'
+import { Card } from '@/components'
+import { useGetAllQuery } from '@/redux/Product/Product.api'
+import { useDispatch, useSelector } from 'react-redux'
+import { locationAction } from '@/redux/Auth/Auth.slice'
 
 const Home: React.FC = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
-  const [triggerSignIn] = useSignInMutation()
-
-  const schema = yup.object().shape({
-    email: yup.string().email().required(),
-    password: yup.string().required()
+  const [page, setPage] = useState(1)
+  const dispatch = useDispatch()
+  const { isFetching, data } = useGetAllQuery({
+    orderDirection: 'asc',
+    page,
+    perPage: 5
   })
 
-  const loginHandle = async () => {
-    const isValidated = await schema.isValid({ email, password })
-
-    if (isValidated) {
-      const response = await triggerSignIn({
-        email,
-        password
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        dispatch(locationAction(position))
       })
-      console.log(response)
     }
+  }, [])
+
+  const handleNextPost = () => {
+    setPage(state => state + 1)
   }
+
+  const { userLocation } = useSelector(state => state.auth)
+
+  console.log(userLocation)
+
+  const handlePreviousPost = () => {
+    setPage(state => state - 1)
+  }
+
   return (
     <>
       <Head>
         <title>Login</title>
       </Head>
+      {isFetching && <LoadingText>Carregando...</LoadingText>}
+
       <Container>
-        <Input
-          onChange={event => setEmail(event.target.value)}
-          type="text"
-          value={email}
-          label="Login"
-        />
-        <Input
-          onChange={event => setPassword(event.target.value)}
-          value={password}
-          type="password"
-          label="Senha"
-        />
-        <Button onClick={loginHandle}>Entrar</Button>
+        {data?.products?.map(({ name, price, favorite }) => (
+          <Card name={name} price={price} key={name} favorite={favorite} />
+        ))}
       </Container>
+
+      <Navigation>
+        <button
+          type="button"
+          onClick={handleNextPost}
+          disabled={data?.products?.length < 5}
+        >
+          Próximo
+        </button>
+        <button
+          type="button"
+          onClick={handlePreviousPost}
+          disabled={data?.page <= 1}
+        >
+          Anterior
+        </button>
+      </Navigation>
     </>
   )
 }

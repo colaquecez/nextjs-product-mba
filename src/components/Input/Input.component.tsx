@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from 'react'
+import { InputHTMLAttributes } from 'react'
 import * as S from './Input.styles'
 
 interface IInput extends InputHTMLAttributes<any> {

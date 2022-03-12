@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { emptySplitApi } from '@/redux/basequery'
 import {
   SignInDTO,
   SignInResponse,
@@ -6,18 +6,14 @@ import {
   SignUpResponse
 } from './Auth.types'
 
-export const authApi = createApi({
-  reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'https://fiap-reactjs-presencial.herokuapp.com/'
-  }),
+export const authApi = emptySplitApi.injectEndpoints({
   endpoints: builder => ({
     signIn: builder.mutation<SignInResponse, SignInDTO>({
       query(body) {
         return {
           body,
           method: 'POST',
-          url: '/storeProducts/login'
+          url: 'storeProducts/login'
         }
       }
     }),
@@ -25,11 +21,12 @@ export const authApi = createApi({
       query(body) {
         return {
           body,
-          method: 'POST'
+          url: 'storeProducts/signup',
+          method: 'PUT'
         }
       }
     })
   })
 })
 
-export const { useSignInMutation } = authApi
+export const { useSignInMutation, useSignUpMutation } = authApi

@@ -32,6 +32,7 @@
     "import/no-extraneous-dependencies": "off",
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
+    "import/no-cycle": "off",
     "next/link-passhref": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
     "import/prefer-default-export": "off",

@@ -1,17 +1,19 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import * as yup from 'yup'
 import Head from 'next/head'
-import { Container, LabelError } from '../styles/pages/Home'
-import { Button, Input } from '../components'
-import api from '../service/api'
+import { Container, LabelError } from '@/styles/pages/SingUp'
+import { Button, Input, Link } from '@/components'
+
+import { useSignUpMutation } from '@/redux/Auth/Auth.api'
+import { useRouter } from 'next/router'
 
 const Home: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
-  const [isError, setIsError] = useState(false)
-  const [error, setError] = useState('')
+  const Router = useRouter()
+  const [triggerSignUp, { isError, error, isLoading }] = useSignUpMutation()
 
   const schema = yup.object().shape({
     email: yup.string().email().required(),
@@ -21,24 +23,21 @@ const Home: React.FC = () => {
   })
 
   const loginHandle = async () => {
-    try {
-      const isValidated = await schema.isValid({ email, password, name, phone })
-      console.log(isValidated)
-      if (isValidated) {
-        const response = await api.put('/storeProducts/signup', {
-          name,
-          phone,
-          email,
-          password
-        })
-        console.log(response)
-        return
+    const isValidated = await schema.isValid({ email, password, name, phone })
+
+    if (isValidated) {
+      const data = await triggerSignUp({
+        name,
+        phone,
+        email,
+        password
+      }).catch(() => {
+        return null
+      })
+
+      if (!data.error) {
+        Router.push('/signin')
       }
-      setError('Preencha todos os campos')
-      setIsError(true)
-    } catch (e) {
-      setError(e.response.data.message)
-      setIsError(true)
     }
   }
   return (
@@ -47,7 +46,7 @@ const Home: React.FC = () => {
         <title>Cadastro</title>
       </Head>
       <Container>
-        {isError && <LabelError>{error}</LabelError>}
+        {isError && <LabelError>{error.data.message}</LabelError>}
         <Input
           onChange={event => setEmail(event.target.value)}
           type="text"
@@ -72,7 +71,11 @@ const Home: React.FC = () => {
           type="text"
           label="Telefone"
         />
-        <Button onClick={loginHandle}>Cadastrar</Button>
+        <Button isLoading={isLoading} onClick={loginHandle}>
+          Cadastrar
+        </Button>
+        <br />
+        <Link href="/signin" label="Já possui uma conta?" />
       </Container>
     </>
   )
