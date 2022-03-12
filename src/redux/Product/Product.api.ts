@@ -6,8 +6,11 @@ export const productApi = emptySplitApi.injectEndpoints({
     getAll: builder.query<IProductGetAllResponse, IProductGetAllDTO>({
       query: ({ page, perPage, orderDirection }) =>
         `/storeProducts/?page=${page}&perPage=${perPage}&orderDirection=${orderDirection}`
+    }),
+    getAllFavorites: builder.query<IProductGetAllResponse, void>({
+      query: () => `storeProducts/getFavProducts`
     })
   })
 })
 
-export const { useGetAllQuery } = productApi
+export const { useGetAllQuery, useGetAllFavoritesQuery } = productApi

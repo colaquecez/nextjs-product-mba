@@ -15,7 +15,7 @@ const Header = () => {
     <S.Container>
       <S.SubContainer>
         <Link href="/" label="Home" />
-        <Link href="/" label="Favoritos" />
+        <Link href="/favorites" label="Favoritos" />
       </S.SubContainer>
 
       <S.SubContainer>
