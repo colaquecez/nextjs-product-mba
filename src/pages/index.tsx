@@ -29,8 +29,6 @@ const Home: React.FC = () => {
 
   const { userLocation } = useSelector(state => state.auth)
 
-  console.log(userLocation)
-
   const handlePreviousPost = () => {
     setPage(state => state - 1)
   }
@@ -43,8 +41,14 @@ const Home: React.FC = () => {
       {isFetching && <LoadingText>Carregando...</LoadingText>}
 
       <Container>
-        {data?.products?.map(({ name, price, favorite }) => (
-          <Card name={name} price={price} key={name} favorite={favorite} />
+        {data?.products?.map(({ name, price, favorite, _id }) => (
+          <Card
+            name={name}
+            price={price}
+            key={name}
+            favorite={favorite}
+            id={_id}
+          />
         ))}
       </Container>
 

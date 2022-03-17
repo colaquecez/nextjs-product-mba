@@ -18,3 +18,7 @@ export interface IProductGetAllDTO {
   orderDirection: string
   search?: string
 }
+
+export interface IProductSelect {
+  product: IProductsResponse
+}
