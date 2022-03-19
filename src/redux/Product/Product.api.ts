@@ -16,11 +16,21 @@ export const productApi = emptySplitApi.injectEndpoints({
     }),
     storeProducts: builder.query<IProductSelect, { id: string }>({
       query: ({ id }) => `storeProducts/product/${id}`
+    }),
+    manageFavorite: builder.mutation<any, { productID: string }>({
+      query({ productID }) {
+        return {
+          method: 'POST',
+          url: `storeProducts/manageFavorite`,
+          body: productID
+        }
+      }
     })
   })
 })
 
 export const {
+  useManageFavoriteMutation,
   useGetAllQuery,
   useGetAllFavoritesQuery,
   useLazyGetAllQuery,
