@@ -19,14 +19,8 @@ const Favorites: React.FC = () => {
             Você não possui nenhum produto como favorito.
           </LoadingText>
         )}
-        {data?.products?.map(({ name, price, favorite, _id }) => (
-          <Card
-            id={_id}
-            name={name}
-            price={price}
-            key={name}
-            favorite={favorite}
-          />
+        {data?.products?.map(({ name, price, _id }) => (
+          <Card id={_id} name={name} price={price} key={name} favorite />
         ))}
       </Container>
     </>

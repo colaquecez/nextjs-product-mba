@@ -17,6 +17,7 @@ export const productApi = emptySplitApi.injectEndpoints({
       query: () => `storeProducts/getFavProducts`
     }),
     storeProducts: builder.query<IProductSelect, { id: string }>({
+      providesTags: ['Product'],
       query: ({ id }) => `storeProducts/product/${id}`
     }),
     manageFavorite: builder.mutation<any, { productID: string }>({
@@ -25,7 +26,9 @@ export const productApi = emptySplitApi.injectEndpoints({
         return {
           method: 'POST',
           url: `storeProducts/manageFavorite`,
-          body: productID
+          body: {
+            productID
+          }
         }
       }
     })
