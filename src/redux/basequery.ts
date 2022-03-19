@@ -14,5 +14,6 @@ export const emptySplitApi = createApi({
     }
   }),
   endpoints: () => ({}),
-  reducerPath: 'mbaApi'
+  reducerPath: 'mbaApi',
+  tagTypes: ['Product']
 })
